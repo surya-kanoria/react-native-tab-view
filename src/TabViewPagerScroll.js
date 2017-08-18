@@ -155,7 +155,7 @@ export default class TabViewPagerScroll<T: Route<*>> extends PureComponent<
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flex: 1,
   },
 
   page: {

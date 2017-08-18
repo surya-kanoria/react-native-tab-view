@@ -2,7 +2,7 @@
 
 import React, { PureComponent, Children } from 'react';
 import PropTypes from 'prop-types';
-import { View, ViewPagerAndroid, StyleSheet, I18nManager } from 'react-native';
+import { View, ViewPagerAndroid, StyleSheet } from 'react-native';
 import { SceneRendererPropType } from './TabViewPropTypes';
 import type { SceneRendererProps, Route } from './TabViewTypeDefinitions';
 
@@ -50,9 +50,7 @@ export default class TabViewPagerAndroid<T: Route<*>> extends PureComponent<
       this._animationFrameCallback = () => {
         if (this._viewPager) {
           const { navigationState } = nextProps;
-          const page = I18nManager.isRTL
-            ? navigationState.routes.length - (navigationState.index + 1)
-            : navigationState.index;
+          const page = navigationState.index;
 
           this._viewPager.setPageWithoutAnimation(page);
         }
@@ -87,10 +85,7 @@ export default class TabViewPagerAndroid<T: Route<*>> extends PureComponent<
   _isIdle: boolean = true;
   _currentIndex = 0;
 
-  _getPageIndex = (index: number) =>
-    I18nManager.isRTL
-      ? this.props.navigationState.routes.length - (index + 1)
-      : index;
+  _getPageIndex = (index: number) => index;
 
   _setPage = (index: number) => {
     if (this._viewPager) {
@@ -115,7 +110,7 @@ export default class TabViewPagerAndroid<T: Route<*>> extends PureComponent<
   _handlePageScroll = (e: PageScrollEvent) => {
     this.props.position.setValue(
       this._getPageIndex(e.nativeEvent.position) +
-        e.nativeEvent.offset * (I18nManager.isRTL ? -1 : 1)
+        e.nativeEvent.offset * 1
     );
   };
 
@@ -143,10 +138,6 @@ export default class TabViewPagerAndroid<T: Route<*>> extends PureComponent<
       </View>
     );
 
-    if (I18nManager.isRTL) {
-      content.reverse();
-    }
-
     const initialPage = this._getPageIndex(navigationState.index);
 
     return (
@@ -169,7 +160,7 @@ export default class TabViewPagerAndroid<T: Route<*>> extends PureComponent<
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flex: 1,
   },
 
   page: {

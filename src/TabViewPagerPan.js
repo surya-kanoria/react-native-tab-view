@@ -8,7 +8,6 @@ import {
   Platform,
   StyleSheet,
   View,
-  I18nManager,
 } from 'react-native';
 import { SceneRendererPropType } from './TabViewPropTypes';
 import type {
@@ -172,8 +171,7 @@ export default class TabViewPagerPan<T: Route<*>> extends PureComponent<
       const nextIndex =
         currentIndex -
         gestureState.dx /
-          Math.abs(gestureState.dx) *
-          (I18nManager.isRTL ? -1 : 1);
+          Math.abs(gestureState.dx);
       if (this._isIndexInRange(nextIndex)) {
         return nextIndex;
       }
@@ -211,7 +209,7 @@ export default class TabViewPagerPan<T: Route<*>> extends PureComponent<
         ? this._lastValue
         : this.props.navigationState.index;
     const nextPosition =
-      currentPosition - gestureState.dx / width * (I18nManager.isRTL ? -1 : 1);
+      currentPosition - gestureState.dx / width;
     if (this._isMoving === null) {
       this._isMoving = this._isMovingHorizontally(evt, gestureState);
     }
@@ -280,7 +278,7 @@ export default class TabViewPagerPan<T: Route<*>> extends PureComponent<
     // Prepend '-1', so there are always at least 2 items in inputRange
     const inputRange = [-1, ...routes.map((x, i) => i)];
     const outputRange = inputRange.map(
-      i => width * i * (I18nManager.isRTL ? 1 : -1)
+      i => width * i * -1
     );
 
     const translateX = position.interpolate({

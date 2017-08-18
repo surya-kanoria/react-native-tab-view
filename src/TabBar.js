@@ -9,7 +9,6 @@ import {
   Text,
   ScrollView,
   Platform,
-  I18nManager,
 } from 'react-native';
 import TouchableItem from './TouchableItem';
 import { SceneRendererPropType } from './TabViewPropTypes';
@@ -161,11 +160,17 @@ export default class TabBar<T: Route<*>> extends PureComponent<
     if (typeof label !== 'string') {
       return null;
     }
-    return (
-      <Text style={[styles.tabLabel, this.props.labelStyle]}>
-        {label}
-      </Text>
-    );
+
+    const isFocused = scene.focused;
+    if (isFocused) {
+      return (
+        <Text numberOfLines={1} style={[styles.tabLabel, this.props.labelStyle]}>{label}</Text>
+      );
+    } else {
+      return (
+        <Text numberOfLines={1} style={[styles.tabLabel]}>{label}</Text>
+      );
+    }
   };
 
   _renderIndicator = (props: IndicatorProps<T>) => {
@@ -174,8 +179,7 @@ export default class TabBar<T: Route<*>> extends PureComponent<
     }
     const { width, position } = props;
     const translateX = Animated.multiply(
-      Animated.multiply(position, width),
-      I18nManager.isRTL ? -1 : 1
+      Animated.multiply(position, width), 1
     );
     return (
       <Animated.View
@@ -530,11 +534,11 @@ const styles = StyleSheet.create({
   },
   tabLabel: {
     backgroundColor: 'transparent',
-    color: 'white',
-    margin: 8,
+    color: 'black',
+    marginTop: 6, marginBottom: 6, marginLeft: 3, marginRight: 3, fontSize: 14, fontWeight: '500',
   },
   tabItem: {
-    flexGrow: 1,
+    flex: 1,
     padding: 8,
     alignItems: 'center',
     justifyContent: 'center',
