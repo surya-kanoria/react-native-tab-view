@@ -4,13 +4,13 @@
 
 This is the fork of https://github.com/react-native-community/react-native-tab-view. It contains changes to make it work with older versions of ReactNative.
 
-** Changes:
+## Changes:
 
 * Since flexGrow, flexShrink properties were not a part of older version of react-native, it has been replaced with flex
 * I18nManager removed.
 
 The usage remains the same. Please refere to https://github.com/react-native-community/react-native-tab-view/blob/master/README.md for detailed guidance.
 
-** Reference: 
+## Reference: 
 
-* https://github.com/react-native-community/react-native-tab-view
+https://github.com/react-native-community/react-native-tab-view
