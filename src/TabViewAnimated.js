@@ -23,7 +23,6 @@ type DefaultProps<T> = {
 
 type Props<T> = PagerProps & {
   navigationState: NavigationState<T>,
-  onIndexChange: (index: number) => void,
   onPositionChange?: ({ value: number }) => void,
   initialLayout?: Layout,
   canJumpToTab?: (route: T) => boolean,
@@ -66,7 +65,6 @@ export default class TabViewAnimated<T: Route<*>> extends PureComponent<
 > {
   static propTypes = {
     navigationState: NavigationStatePropType.isRequired,
-    onIndexChange: PropTypes.func.isRequired,
     onPositionChange: PropTypes.func,
     initialLayout: PropTypes.shape({
       height: PropTypes.number.isRequired,
@@ -226,13 +224,9 @@ export default class TabViewAnimated<T: Route<*>> extends PureComponent<
     if (index !== navigationState.index) {
       /* $FlowFixMe */
       if (this.props.onRequestChangeTab) {
-        console.warn(
-          '`onRequestChangeTab` is deprecated. Use `onIndexChange` instead.'
-        );
         /* $FlowFixMe */
         this.props.onRequestChangeTab(index);
       }
-      this.props.onIndexChange(index);
     }
   };
 
@@ -261,7 +255,6 @@ export default class TabViewAnimated<T: Route<*>> extends PureComponent<
     const {
       /* eslint-disable no-unused-vars */
       navigationState,
-      onIndexChange,
       onPositionChange,
       canJumpToTab,
       lazy,
