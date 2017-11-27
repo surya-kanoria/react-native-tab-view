@@ -15,6 +15,7 @@ import type {
   Route,
   TransitionConfigurator,
 } from './TabViewTypeDefinitions';
+import TabviewPagerPanChildren from './TabviewPagerPanChildren';
 
 type GestureEvent = {
   nativeEvent: {
@@ -74,7 +75,7 @@ export default class TabViewPagerPan<T: Route<*>> extends PureComponent<
   DefaultProps,
   Props<T>,
   void
-> {
+  > {
   static propTypes = {
     ...SceneRendererPropType,
     configureTransition: PropTypes.func.isRequired,
@@ -171,7 +172,7 @@ export default class TabViewPagerPan<T: Route<*>> extends PureComponent<
       const nextIndex =
         currentIndex -
         gestureState.dx /
-          Math.abs(gestureState.dx);
+        Math.abs(gestureState.dx);
       if (this._isIndexInRange(nextIndex)) {
         return nextIndex;
       }
@@ -187,7 +188,7 @@ export default class TabViewPagerPan<T: Route<*>> extends PureComponent<
     const canMove =
       this._isMovingHorizontally(evt, gestureState) &&
       ((gestureState.dx >= DEAD_ZONE && index >= 0) ||
-        (gestureState.dx <= -DEAD_ZONE && index <= routes.length - 1));
+      (gestureState.dx <= -DEAD_ZONE && index <= routes.length - 1));
     if (canMove) {
       this._startDirection = gestureState.dx;
     }
@@ -293,21 +294,12 @@ export default class TabViewPagerPan<T: Route<*>> extends PureComponent<
           width
             ? { width: routes.length * width, transform: [{ translateX }] }
             : null,
-        ]}
+        ,{willChange: 'transform'}]}
         {...this._panResponder.panHandlers}
       >
         {Children.map(children, (child, i) =>
-          <View
-            key={navigationState.routes[i].key}
-            testID={navigationState.routes[i].testID}
-            style={
-              width
-                ? { width }
-                : i === navigationState.index ? StyleSheet.absoluteFill : null
-            }
-          >
-            {i === navigationState.index || width ? child : null}
-          </View>
+          <TabviewPagerPanChildren key={navigationState.routes[i].key}
+                                   testID={navigationState.routes[i].testID} navigationState={navigationState} width={width} child={child} i={i}/>
         )}
       </Animated.View>
     );
