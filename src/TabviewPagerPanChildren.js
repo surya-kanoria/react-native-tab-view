@@ -10,18 +10,29 @@ const {
 export default class TabviewPagerPanChildren extends React.Component {
 
   shouldComponentUpdate(newProps) {
-    return true;
+    let currentChild = newProps.i;
+    // console.log(currentChild, newProps.navigationState);
+    // console.log(newProps.i, "should update", !visitedTabs.includes(currentChild));
+    // console.log(currentChild, newProps.navigationState.index, currentChild === newProps.navigationState.index);
+    console.log(currentChild, newProps.navigationState.index);
+    return currentChild === newProps.navigationState.index && this.props.width !== newProps.width;
+    // return true;
+    // return false;
   }
 
   render() {
     let width = this.props.width;
     let i = this.props.i;
+    if(this.props.navigationState.index === i) {
+      console.log('rendering-->', this.props.navigationState.index, i, width);
+      debugger;
+    }
     let view = <View
       style={
-              width
-                ? { width }
-                : this.props.i === this.props.navigationState.index ? StyleSheet.absoluteFill : null
-            }
+        width
+          ? {width}
+          : this.props.i === this.props.navigationState.index ? StyleSheet.absoluteFill : null
+      }
     >
       {i === this.props.navigationState.index || width ? this.props.child : null}
     </View>
