@@ -126,7 +126,7 @@ export default class TabViewAnimated<T: Route<*>> extends PureComponent<
     const { navigationState } = props;
     const { loaded } = this.state;
     if (lazy) {
-      if (loaded.includes(navigationState.routes.indexOf(props.route))) {
+      if (loaded.indexOf(navigationState.routes.indexOf(props.route)) !== -1) {
         return renderScene(props);
       }
       return null;
@@ -157,7 +157,7 @@ export default class TabViewAnimated<T: Route<*>> extends PureComponent<
       if (next === navigationState.index) {
         next = Math.floor(value);
       }
-      if (loaded.includes(next)) {
+      if (loaded.indexOf(next) !== -1) {
         return;
       }
       this.setState({
